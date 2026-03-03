@@ -32,8 +32,8 @@ float waterTemperature = 30.0;
 float voltageAtPH7 = 1.65;
 float voltageAtPH4 = 2.20;
 float tdsCalFactor = 0.5;
-float emptyDist = 30.0; // cm  distance when tank empty (sensor→bottom)
-float fullDist = 4.0;   // cm  distance when tank full  (sensor→water surface)
+float emptyDist = 100.0; // cm  distance when tank empty (sensor→bottom)
+float fullDist = 25.0;   // cm  distance when tank full  (JSN-SR04T min distance is ~25cm)
 float lowThreshold = 20.0;  // %   pump ON below this
 float highThreshold = 80.0; // %   pump OFF above this
 
@@ -82,10 +82,12 @@ int getMedianNum(int bArray[], int n) {
 float singlePing() {
   digitalWrite(TRIG_PIN, LOW);
   delayMicroseconds(2);
+  // JSN-SR04T often likes a slightly longer trigger
   digitalWrite(TRIG_PIN, HIGH);
-  delayMicroseconds(10);
+  delayMicroseconds(20); 
   digitalWrite(TRIG_PIN, LOW);
-  long d = pulseIn(ECHO_PIN, HIGH, 30000);
+  // timeout increased slightly for outdoor ranges up to 6m
+  long d = pulseIn(ECHO_PIN, HIGH, 40000);
   return (d == 0) ? -1.0 : d * 0.0343 / 2.0;
 }
 float readUltrasonic() {
@@ -235,8 +237,8 @@ void setup() {
   voltageAtPH7 = prefs.getFloat("ph7v", 1.65);
   voltageAtPH4 = prefs.getFloat("ph4v", 2.20);
   tdsCalFactor = prefs.getFloat("tdscf", 0.5);
-  emptyDist = prefs.getFloat("emD", 30.0);
-  fullDist = prefs.getFloat("fuD", 4.0);
+  emptyDist = prefs.getFloat("emD", 100.0);
+  fullDist = prefs.getFloat("fuD", 25.0);
   lowThreshold = prefs.getFloat("lowTh", 20.0);
   highThreshold = prefs.getFloat("highTh", 80.0);
   currentTemp = waterTemperature;
