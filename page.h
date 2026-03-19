@@ -28,7 +28,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:#080c1a;min-height:100v
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
 /* cards */
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:24px 16px 20px;text-align:center;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ac);opacity:.5}
 .card:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(0,0,0,.3)}
@@ -128,7 +128,6 @@ body{font-family:'Inter',system-ui,sans-serif;background:#080c1a;min-height:100v
 <div class="sbar"><div class="dot" id="dot"></div><span id="sts">Connecting&hellip;</span><span>&bull;</span><span id="upd">--</span></div>
 
 <div class="cards">
-<div class="card ct"><div class="gc"><svg viewBox="0 0 120 120"><circle class="gbg" cx="60" cy="60" r="54"/><circle class="gf" id="tG" cx="60" cy="60" r="54" stroke-dasharray="339.3" stroke-dashoffset="339.3"/></svg><div class="gv"><div class="n" id="tV">--</div><div class="u">&deg;C</div></div></div><div class="lbl">Temperature</div><span class="badge bg-i" id="tB">--</span></div>
 <div class="card cp"><div class="gc"><svg viewBox="0 0 120 120"><circle class="gbg" cx="60" cy="60" r="54"/><circle class="gf" id="pG" cx="60" cy="60" r="54" stroke-dasharray="339.3" stroke-dashoffset="339.3"/></svg><div class="gv"><div class="n" id="pV">--</div><div class="u">pH</div></div></div><div class="lbl">pH Level</div><span class="badge bg-i" id="pB">--</span><div class="rv" id="phRV"></div></div>
 <div class="card cd"><div class="gc"><svg viewBox="0 0 120 120"><circle class="gbg" cx="60" cy="60" r="54"/><circle class="gf" id="dG" cx="60" cy="60" r="54" stroke-dasharray="339.3" stroke-dashoffset="339.3"/></svg><div class="gv"><div class="n" id="dV">--</div><div class="u">ppm</div></div></div><div class="lbl">TDS</div><span class="badge bg-i" id="dB">--</span><div class="rv" id="tdsRV"></div></div>
 <div class="card cl"><div class="gc"><svg viewBox="0 0 120 120"><circle class="gbg" cx="60" cy="60" r="54"/><circle class="gf" id="lG" cx="60" cy="60" r="54" stroke-dasharray="339.3" stroke-dashoffset="339.3"/></svg><div class="gv"><div class="n" id="lV">--</div><div class="u">%</div></div></div><div class="lbl">Water Level</div><span class="badge bg-i" id="lB">--</span></div>
@@ -161,8 +160,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:#080c1a;min-height:100v
 <div class="chtabs">
 <button class="chtab act" onclick="stab(0,this)">pH</button>
 <button class="chtab" onclick="stab(1,this)">TDS</button>
-<button class="chtab" onclick="stab(2,this)">Temp</button>
-<button class="chtab" onclick="stab(3,this)">Level</button>
+<button class="chtab" onclick="stab(2,this)">Level</button>
 </div>
 <div class="chwrap" id="chWrap"><canvas id="chart"></canvas></div>
 </div>
@@ -178,14 +176,12 @@ body{font-family:'Inter',system-ui,sans-serif;background:#080c1a;min-height:100v
 <div class="calsec" style="--sc:#a78bfa"><div class="calst">&#128142; TDS Sensor</div>
 <div class="calf"><label>Live Raw Voltage</label><div class="rlive" id="ctV">--</div></div>
 <div class="calf"><label>Calibration Factor</label><input type="number" id="cTF" step="0.01"><div class="calh">Default 0.50</div></div></div>
-<div class="calsec" style="--sc:#fb923c"><div class="calst">&#127777; Temperature</div>
-<div class="calf"><label>Manual Override (&deg;C)</label><input type="number" id="cTe" step="0.1"><div class="calh">Used if DS18B20 not detected</div></div></div>
+
 <div class="calsec" style="--sc:#3b82f6"><div class="calst">&#128166; Tank &amp; Pump</div>
-<div class="calf"><label>Live Sensor Distance</label><div class="rlive" id="cLvlD">--</div><div class="calh">Mount JSN-SR04T &gt;25cm above max water!</div></div>
-<div class="calrow"><div class="calf"><label>Empty Dist (cm)</label><input type="number" id="cEmD" step="0.1"><div class="calh">Sensor to bottom</div></div>
-<div class="calf"><label>Full Dist (cm)</label><input type="number" id="cFuD" step="0.1"><div class="calh">Sensor to full level</div></div></div>
-<div class="calrow"><div class="calf"><label>Low Thresh (%)</label><input type="number" id="cLo" step="1"><div class="calh">Pump ON below</div></div>
-<div class="calf"><label>High Thresh (%)</label><input type="number" id="cHi" step="1"><div class="calh">Pump OFF above</div></div></div></div>
+<div class="calrow"><div class="calf"><label>Empty Distance (cm)</label><input type="number" id="cEmD" step="0.1"><div class="calh">Sensor reading when tank is empty</div></div>
+<div class="calf"><label>Full Distance (cm)</label><input type="number" id="cFuD" step="0.1"><div class="calh">Sensor reading when tank is full</div></div></div>
+<div class="calrow"><div class="calf"><label>Low Threshold (%)</label><input type="number" id="cLo" step="1"><div class="calh">Pump ON below this</div></div>
+<div class="calf"><label>High Threshold (%)</label><input type="number" id="cHi" step="1"><div class="calh">Pump OFF above this</div></div></div></div>
 <div class="calbtns"><button class="cbtn cbtn-s" onclick="saveCal()">&#128190; Save</button><button class="cbtn cbtn-r" onclick="resetCal()">&#8635; Reset</button></div>
 </div></div>
 <div class="foot">ESP32 Water Quality Monitor &bull; <span id="ipAddr">--</span></div>
@@ -200,17 +196,16 @@ var bc=function(el,c){el.className='badge '+c};
 var toastMsg=function(m){var t=document.getElementById('toast');t.textContent=m;t.className='toast show';setTimeout(function(){t.className='toast'},3000)};
 
 /* ---- Quality Score ---- */
-var calcScore=function(ph,tds,tmp,lvl){
+var calcScore=function(ph,tds,lvl){
   var s=100;
   if(ph<6.5||ph>8.5)s-=25;else if(ph<6.8||ph>7.5)s-=10;
   if(tds>900)s-=30;else if(tds>600)s-=20;else if(tds>300)s-=10;
-  if(tmp<10||tmp>40)s-=15;else if(tmp<15||tmp>35)s-=5;
   if(lvl<20)s-=15;else if(lvl<40)s-=5;
   return Math.max(0,Math.min(100,s));
 };
 
 var updateAnalysis=function(d){
-  var s=calcScore(d.ph,d.tds,d.temp,d.lvl);
+  var s=calcScore(d.ph,d.tds,d.lvl);
   document.getElementById('sNum').textContent=s;
   var ring=document.getElementById('sRing');
   ring.style.strokeDashoffset=SC*(1-s/100);
@@ -230,9 +225,6 @@ var updateAnalysis=function(d){
   if(d.tds<300)sug+='<div class="sug"><span class="sug-icon">&#9989;</span><span class="sug-t">TDS '+Math.round(d.tds)+' ppm — Good purity</span></div>';
   else if(d.tds<600)sug+='<div class="sug"><span class="sug-icon">&#9888;</span><span class="sug-t">TDS '+Math.round(d.tds)+' ppm — Moderate, consider filter</span></div>';
   else sug+='<div class="sug"><span class="sug-icon">&#10060;</span><span class="sug-t">TDS '+Math.round(d.tds)+' ppm — High, filtration recommended</span></div>';
-  // Temp
-  if(d.temp>=15&&d.temp<=35)sug+='<div class="sug"><span class="sug-icon">&#9989;</span><span class="sug-t">Temp '+d.temp.toFixed(1)+'&deg;C — Normal range</span></div>';
-  else sug+='<div class="sug"><span class="sug-icon">&#9888;</span><span class="sug-t">Temp '+d.temp.toFixed(1)+'&deg;C — Outside ideal range</span></div>';
   // Level
   if(d.lvl>40)sug+='<div class="sug"><span class="sug-icon">&#9989;</span><span class="sug-t">Water level '+d.lvl.toFixed(0)+'% — Sufficient</span></div>';
   else if(d.lvl>20)sug+='<div class="sug"><span class="sug-icon">&#9888;</span><span class="sug-t">Water level '+d.lvl.toFixed(0)+'% — Getting low</span></div>';
@@ -243,10 +235,6 @@ var updateAnalysis=function(d){
 /* ---- Fetch Data ---- */
 var fetchData=function(){
   fetch('/data').then(function(r){return r.json()}).then(function(d){
-    document.getElementById('tV').textContent=d.temp.toFixed(1);sg('tG',d.temp/50);
-    var te=document.getElementById('tB');
-    if(d.temp<15){te.textContent='Cold';bc(te,'bg-w')}else if(d.temp>40){te.textContent='Hot';bc(te,'bg-b')}else{te.textContent='Normal';bc(te,'bg-g')}
-
     document.getElementById('pV').textContent=d.ph.toFixed(2);sg('pG',d.ph/14);
     var pe=document.getElementById('pB');
     if(d.ph<6.5){pe.textContent='Acidic';bc(pe,'bg-w')}else if(d.ph>8.5){pe.textContent='Alkaline';bc(pe,'bg-w')}else if(d.ph<=7.5){pe.textContent='Neutral';bc(pe,'bg-g')}else{pe.textContent='Normal';bc(pe,'bg-g')}
@@ -263,7 +251,6 @@ var fetchData=function(){
     document.getElementById('tdsRV').textContent=d.tdsV.toFixed(3)+' V';
     document.getElementById('cpV').textContent=d.phV.toFixed(3)+' V';
     document.getElementById('ctV').textContent=d.tdsV.toFixed(3)+' V';
-    var eL=document.getElementById('cLvlD');if(eL)eL.textContent=d.dist.toFixed(1)+' cm';
 
     // Pump
     document.getElementById('pDot').className='pump-dot '+(d.pump?'on':'off');
@@ -298,9 +285,9 @@ var drawChart=function(){
   var ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;
   var pl=42,pr=10,pt=15,pb=20,cw=w-pl-pr,ch=h-pt-pb;
   ctx.clearRect(0,0,w,h);
-  var colors=['#22d3ee','#a78bfa','#fb923c','#3b82f6'];
-  var labels=['pH','TDS (ppm)','Temp (\u00b0C)','Level (%)'];
-  var ranges=[[0,14],[0,1000],[0,50],[0,100]];
+  var colors=['#22d3ee','#a78bfa','#3b82f6'];
+  var labels=['pH','TDS (ppm)','Level (%)'];
+  var ranges=[[0,14],[0,1000],[0,100]];
   if(!hist||hist.length<2){ctx.fillStyle='#475569';ctx.font='13px Inter';ctx.textAlign='center';ctx.fillText('Collecting data...',w/2,h/2);return}
   var data=[];for(var i=0;i<hist.length;i++)data.push(hist[i][curTab]);
   var mn=ranges[curTab][0],mx=ranges[curTab][1],col=colors[curTab];
@@ -343,27 +330,25 @@ var loadCal=function(){
     document.getElementById('cP7').value=d.ph7v.toFixed(3);
     document.getElementById('cP4').value=d.ph4v.toFixed(3);
     document.getElementById('cTF').value=d.tdscf.toFixed(2);
-    document.getElementById('cTe').value=d.temp.toFixed(1);
-    document.getElementById('cEmD').value=(d.emD!==undefined)?d.emD.toFixed(1):'100.0';
-    document.getElementById('cFuD').value=(d.fuD!==undefined)?d.fuD.toFixed(1):'25.0';
+    document.getElementById('cEmD').value=d.emD.toFixed(1);
+    document.getElementById('cFuD').value=d.fuD.toFixed(1);
     document.getElementById('cLo').value=d.lowTh.toFixed(0);
     document.getElementById('cHi').value=d.highTh.toFixed(0);
   });
 };
 var saveCal=function(){
   var q='?ph7v='+document.getElementById('cP7').value+'&ph4v='+document.getElementById('cP4').value
-    +'&tdscf='+document.getElementById('cTF').value+'&temp='+document.getElementById('cTe').value
+    +'&tdscf='+document.getElementById('cTF').value
     +'&emD='+document.getElementById('cEmD').value+'&fuD='+document.getElementById('cFuD').value
-    +'&lowTh='+document.getElementById('cLo').value
-    +'&highTh='+document.getElementById('cHi').value;
+    +'&lowTh='+document.getElementById('cLo').value+'&highTh='+document.getElementById('cHi').value;
   fetch('/calibrate'+q,{method:'POST'}).then(function(r){return r.json()}).then(function(){toastMsg('Settings saved to flash!')}).catch(function(){toastMsg('Save failed')});
 };
 var resetCal=function(){
   document.getElementById('cP7').value='1.650';document.getElementById('cP4').value='2.200';
-  document.getElementById('cTF').value='0.50';document.getElementById('cTe').value='30.0';
-  document.getElementById('cEmD').value='100.0';document.getElementById('cFuD').value='25.0';
-  document.getElementById('cLo').value='20';
-  document.getElementById('cHi').value='80';toastMsg('Reset to defaults \u2014 click Save to apply');
+  document.getElementById('cTF').value='0.50';
+  document.getElementById('cEmD').value='30.0';document.getElementById('cFuD').value='5.0';
+  document.getElementById('cLo').value='20';document.getElementById('cHi').value='80';
+  toastMsg('Reset to defaults \u2014 click Save to apply');
 };
 
 /* ---- Init ---- */
